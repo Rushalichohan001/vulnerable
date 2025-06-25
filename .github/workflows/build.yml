@@ -1,19 +1,31 @@
-name: Build
+name: SonarCloud
+
 on:
   push:
     branches:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
-  sonarqube:
-    name: SonarQube
-    runs-on: windows-latest
+  build:
+    name: Build and analyze on SonarCloud
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          organization: rushalichohan001
+          projectKey: Rushalichohan001_vulnerable
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
