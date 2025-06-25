@@ -8,7 +8,7 @@ public class VulnerableApp extends HttpServlet {
         String userInput = request.getParameter("username");
         String passwordInput = request.getParameter("password");
 
-        // 🔥 OWASP A1:2021 - Broken Access Control (Missing role check)
+        //  OWASP A1:2021 - Broken Access Control (Missing role check)
         if (request.getParameter("admin").equals("true")) {
             response.getWriter().println("Welcome, admin user!");
         }
